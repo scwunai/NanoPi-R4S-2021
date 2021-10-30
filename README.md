@@ -1,5 +1,5 @@
 # 中文简体 | [English](https://github.com/scwunai/NanoPi-R4S-2021/blob/main/EngLish.md)
-# NanoPi-R4S-2021 每天自动更新插件和内核版本。
+# NanoPi-R4S-2021 每天按照个人喜好开启自动更新插件和内核版本。
 ## 👉使用本固件前，请严格遵守国家互联网使用相关法律规定,不要违反国家法律规定！👈
 ## 强烈推荐三星TF卡\海康TF卡。哪怕是很难刷上的固件，只有三星刷上可以开机。
 ## 本固件fork自DXDAXCW大佬的R4S固件源代码，添加一些自己喜欢的功能并进行Actions编译
@@ -7,7 +7,6 @@
 - 正式版（含超频）对折腾的，可以选择，电压一定要考虑。超频都是升压的，会造成不稳定的。比如跑cpu测试容易升压等。
 - Docker版 含Docker插件，会导致udp转发失效 慎用，只要别开passwall的udp，不影响使用。
 - 稳定版 含有日常使用插件
-- 此版本取消了精简版，改为稳定版
 - 风扇链接 [点击进入](https://s.click.taobao.com/67X4ceu)  建议用这种风扇
 ### 注：不要用恢复备份。。不保证某个插件是否正常运行。。。建议重新设置贼好！！！
 ### 默认编译  
@@ -22,7 +21,7 @@
 ### 该升级只支持4G版，1G版不支持，请不要用此升级。1G版内存tmp分区空间不足，无法下载升级包
 - 多版本在里面，自己选 👇
 ```
-wget https://raw.githubusercontent.com/DHDAXCW/NanoPi-R4S-2021/main/scripts/autoupdate.sh && sh autoupdate.sh
+wget https://raw.githubusercontent.com/scwunai/NanoPi-R4S-2021/main/scripts/autoupdate.sh && sh autoupdate.sh
 ```
 # 插件展示
  ![Alt text](data/20.jpg?raw=true "Title")
