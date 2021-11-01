@@ -7,6 +7,7 @@
 - 正式版（含超频）对折腾的，可以选择，电压一定要考虑。超频都是升压的，会造成不稳定的。比如跑cpu测试容易升压等。
 - Docker版 含Docker插件，会导致udp转发失效 慎用，只要别开passwall的udp，不影响使用。
 - 稳定版 含有日常使用插件
+- 风扇链接 [点击进入](https://s.click.taobao.com/t?e=m%3D2%26s%3DgRTBGDB0YZwcQipKwQzePOeEDrYVVa64LKpWJ%2Bin0XJRAdhuF14FMQ8HNhhJnpl6RitN3%2FurF3yT0mcOGN1M6FAj1gqltKaEfKzCcEr0EW0YuhTK3FPxiHMT7yc3NZrQKSOkJV8harV3phaPbavinqGCwVfdcN0wcSpj5qSCmbA%3D)  建议用这种风扇
 ### 注：不要用恢复备份。。不保证某个插件是否正常运行。。。建议重新设置贼好！！！
 ### 默认编译  
 
