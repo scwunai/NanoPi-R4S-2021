@@ -22,7 +22,7 @@
 ### 该升级支持4G版，1G版
 - 多版本在里面，自己选 👇
 ```
-wget https://raw.githubusercontent.com/lone-wind/scripts/main/onlineupdate.sh && sh onlineupdate.sh
+wget https://raw.githubusercontent.com/scwunai/scripts/main/onlineupdate.sh && sh onlineupdate.sh
 ```
 # 插件展示
  ![Alt text](data/20.jpg?raw=true "Title")
