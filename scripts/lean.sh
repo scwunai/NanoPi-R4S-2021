@@ -48,6 +48,9 @@ git clone --depth=1 https://github.com/SuLingGG/luci-app-diskman
 mkdir parted
 cp luci-app-diskman/Parted.Makefile parted/Makefile
 
+# Add luci-app-godproxy
+git clone https://github.com/project-lede/luci-app-godproxy.git
+
 # Add luci-app-dockerman
 rm -rf ../lean/luci-app-docker
 git clone --depth=1 https://github.com/lisaac/luci-app-dockerman
@@ -108,16 +111,6 @@ svn co https://github.com/QiuSimons/OpenWrt_luci-app/trunk/luci-app-tencentddns 
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-aliddns feeds/luci/applications/luci-app-aliddns
 ln -sf ../../../feeds/luci/applications/luci-app-aliddns ./package/feeds/luci/luci-app-aliddns
 
-# Add luci-app-ddnsto
-pushd package/network/services
-git clone --depth=1 https://github.com/linkease/ddnsto-openwrt
-popd
-
-# Add luci-app-linkease
-pushd package/network/services
-git clone --depth=1 https://github.com/linkease/linkease-openwrt
-popd
-
 # Add Pandownload
 pushd package/lean
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
@@ -164,6 +157,9 @@ popd
 rm -rf ./package/kernel/linux/modules/video.mk
 wget -P package/kernel/linux/modules/ https://github.com/immortalwrt/immortalwrt/raw/master/package/kernel/linux/modules/video.mk
 
+wget -P target/linux/rockchip/armv8/base-files/etc/init.d/ https://github.com/friendlyarm/friendlywrt/raw/master-v19.07.1/target/linux/rockchip-rk3399/base-files/etc/init.d/fa-rk3399-pwmfan
+wget -P target/linux/rockchip/armv8/base-files/usr/bin/ https://github.com/friendlyarm/friendlywrt/raw/master-v19.07.1/target/linux/rockchip-rk3399/base-files/usr/bin/start-rk3399-pwm-fan.sh
+
 # Change default shell to zsh
 sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
 
@@ -184,9 +180,9 @@ echo 'net.bridge.bridge-nf-call-ip6tables=0' >> package/base-files/files/etc/sys
 echo 'net.bridge.bridge-nf-call-arptables=0' >> package/base-files/files/etc/sysctl.conf
 echo 'net.bridge.bridge-nf-filter-vlan-tagged=0' >> package/base-files/files/etc/sysctl.conf
 # Add CUPInfo
-pushd package/lean/autocore/files/arm/sbin
-cp -f $GITHUB_WORKSPACE/scripts/cpuinfo cpuinfo
-popd
+# pushd package/lean/autocore/files/arm/sbin
+# cp -f $GITHUB_WORKSPACE/scripts/cpuinfo cpuinfo
+# popd
 # Add luci-app-adguardhome
 rm -rf package/lean/luci-app-adguardhome
 svn co https://github.com/Lienol/openwrt/trunk/package/diy/luci-app-adguardhome package/lean/luci-app-adguardhome
