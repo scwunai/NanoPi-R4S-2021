@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Add luci-app-ssr-plus
-pushd package/lean
-git clone --depth=1 https://github.com/fw876/helloworld
-popd
+rm -rf ./feeds/packages/utils/runc/Makefile
+svn export https://github.com/openwrt/packages/trunk/utils/runc/Makefile ./feeds/packages/utils/runc/Makefile
+
+# fix netdata
+rm -rf ./feeds/packages/admin/netdata
+svn co https://github.com/DHDAXCW/packages/branches/ok/admin/netdata ./feeds/packages/admin/netdata
 
 # Clone community packages to package/community
 mkdir package/community
@@ -14,12 +16,23 @@ git clone --depth=1 https://github.com/Lienol/openwrt-package
 rm -rf openwrt-package/verysync
 rm -rf openwrt-package/luci-app-verysync
 
+# Add luci-app-ssr-plus
+git clone --depth=1 https://github.com/fw876/helloworld.git
+
+# Add luci-app-unblockneteasemusic
+rm -rf ../lean/luci-app-unblockmusic
+git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git
+
 # Add luci-app-passwall
 #git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall
 
 # Add luci-app-vssr <M>
 git clone --depth=1 https://github.com/jerrykuku/lua-maxminddb.git
 git clone --depth=1 https://github.com/jerrykuku/luci-app-vssr
+
+# Add luci-app-netdata
+rm -rf ../lean/luci-app-netdata
+git clone https://github.com/sirpdboy/luci-app-netdata
 
 # Add mentohust & luci-app-mentohust
 git clone --depth=1 https://github.com/BoringCat/luci-app-mentohust
@@ -32,27 +45,37 @@ git clone --depth=1 https://github.com/ysc3839/luci-proto-minieap
 # git clone https://github.com/garypang13/luci-app-bypass.git
 
 # Add OpenClash
-git clone --depth=1 -b master https://github.com/vernesong/OpenClash
+git clone https://github.com/vernesong/OpenClash
 
 # Add luci-app-onliner (need luci-app-nlbwmon)
 git clone --depth=1 https://github.com/rufengsuixing/luci-app-onliner
 
+# Add luci-app-adguardhome
+svn co https://github.com/Lienol/openwrt-package/branches/other/luci-app-adguardhome
+
+# Add ddnsto & linkease
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-ddnsto
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-linkease
+svn co https://github.com/linkease/nas-packages/trunk/network/services/ddnsto
+svn co https://github.com/linkease/nas-packages/trunk/network/services/linkease
+
 # Add luci-app-oled (R2S Only)
 git clone --depth=1 https://github.com/NateLol/luci-app-oled
 
-# Add ServerChan
-git clone --depth=1 https://github.com/tty228/luci-app-serverchan
+# Add OpenClash
+git clone --depth=1 -b master https://github.com/vernesong/OpenClash
 
 # Add luci-app-diskman
-git clone --depth=1 https://github.com/SuLingGG/luci-app-diskman
-mkdir parted
-cp luci-app-diskman/Parted.Makefile parted/Makefile
+# git clone --depth=1 https://github.com/SuLingGG/luci-app-diskman
+# mkdir parted
+# cp luci-app-diskman/Parted.Makefile parted/Makefile
 
-# Add luci-app-godproxy
-git clone https://github.com/project-lede/luci-app-godproxy.git
+# Add luci-app-ikoolproxy (godproxy)
+git clone https://github.com/iwrt/luci-app-ikoolproxy.git
 
 # Add luci-app-dockerman
 rm -rf ../lean/luci-app-docker
+rm -rf ../lean/luci-app-dockerman
 git clone --depth=1 https://github.com/lisaac/luci-app-dockerman
 git clone --depth=1 https://github.com/lisaac/luci-lib-docker
 
@@ -65,20 +88,14 @@ rm -rf ../lean/luci-theme-argon
 git clone --depth=1 https://github.com/tindy2013/openwrt-subconverter
 
 # Add extra wireless drivers
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8812au-ac
+svn co https://github.com/baxobox/add_rtl8812ac/trunk/files/package/kernel/rtl8812au-ac
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8821cu
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8188eu
-svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8192eu
+svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8192du
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl88x2bu
 
 # Add luci-app-smartdns & smartdns
 svn co https://github.com/281677160/openwrt-package/trunk/feeds/luci/applications/luci-app-smartdns
-# svn co https://github.com/281677160/openwrt-package/trunk/feeds/packages/net/smartdns
-# svn co https://github.com/OpenWrt-Actions/OpenWrt-Packages/trunk/smartdns
-# svn co https://github.com/OpenWrt-Actions/OpenWrt-Packages/trunk/luci-app-smartdns
-# svn co https://github.com/openwrt/packages/trunk/net/smartdns
-# sed -i 's/PKG_MIRROR_HASH:=.*//g' smartdns/Makefile
-# svn co https://github.com/openwrt/luci/trunk/applications/luci-app-smartdns
 
 # Add apk (Apk Packages Manager)
 svn co https://github.com/openwrt/packages/trunk/utils/apk
@@ -159,7 +176,7 @@ wget -P package/kernel/linux/modules/ https://github.com/immortalwrt/immortalwrt
 
 wget -P target/linux/rockchip/armv8/base-files/etc/init.d/ https://github.com/friendlyarm/friendlywrt/raw/master-v19.07.1/target/linux/rockchip-rk3399/base-files/etc/init.d/fa-rk3399-pwmfan
 wget -P target/linux/rockchip/armv8/base-files/usr/bin/ https://github.com/friendlyarm/friendlywrt/raw/master-v19.07.1/target/linux/rockchip-rk3399/base-files/usr/bin/start-rk3399-pwm-fan.sh
-
+# wget -P target/linux/rockchip/patches-5.4 https://raw.githubusercontent.com/DHDAXCW/package_target/master/107-Add-support-for-off-on-delay-kernel-5.4.patch
 # Change default shell to zsh
 sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
 
@@ -183,10 +200,3 @@ echo 'net.bridge.bridge-nf-filter-vlan-tagged=0' >> package/base-files/files/etc
 # pushd package/lean/autocore/files/arm/sbin
 # cp -f $GITHUB_WORKSPACE/scripts/cpuinfo cpuinfo
 # popd
-# Add luci-app-adguardhome
-rm -rf package/lean/luci-app-adguardhome
-svn co https://github.com/Lienol/openwrt/trunk/package/diy/luci-app-adguardhome package/lean/luci-app-adguardhome
-rm -rf ./feeds/packages/net/adguardhome
-svn co https://github.com/openwrt/packages/trunk/net/adguardhome feeds/packages/net/adguardhome
-sed -i '/\t)/a\\t$(STAGING_DIR_HOST)/bin/upx --lzma --best $(GO_PKG_BUILD_BIN_DIR)/AdGuardHome' ./feeds/packages/net/adguardhome/Makefile
-sed -i '/init/d' feeds/packages/net/adguardhome/Makefile
