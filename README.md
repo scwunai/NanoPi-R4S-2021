@@ -11,6 +11,7 @@
 - 风扇链接 [点击进入](https://s.click.taobao.com/t?e=m%3D2%26s%3Dd8Ack0Lbx8McQipKwQzePOeEDrYVVa64LKpWJ%2Bin0XJRAdhuF14FMXpyNmcFd6mT8sviUM61dt2T0mcOGN1M6FAj1gqltKaEfKzCcEr0EW0YuhTK3FPxiHMT7yc3NZrQKSOkJV8harV3phaPbavinqGCwVfdcN0wcSpj5qSCmbA%3D)  建议用这种风扇
 ### 注：不要用恢复备份。。不保证某个插件是否正常运行。。。建议重新设置贼好！
 
+
 ### 默认编译  
 
 - 用户名：root 密码：password  管理IP：192.168.2.1
@@ -30,6 +31,11 @@ wget https://raw.githubusercontent.com/scwunai/scripts/main/onlineupdate.sh && s
 ## 提示
  - 本固件加了动态超频，不管热不热这是取决后台运行程序在跑什么。
  - 感觉很热  就加风扇，推荐 风扇6cm×6cm，薄1cm，usb也行 或者端子线zh1.5（风扇脚本目前在建设中）
+<<<<<<< HEAD
+=======
+# [赏个鸡腿吧](https://afdian.net/@dhdaxcw/plan)
+### https://afdian.net/@dhdaxcw/plan
+>>>>>>> 26f4da398b97518564d4d06f80964e5f2815e09c
 
 ## 鸣谢
 
@@ -51,7 +57,13 @@ P3TERX 大佬的 Actions-OpenWrt 项目：
 
 <https://github.com/P3TERX/Actions-OpenWrt>
 
+<<<<<<< HEAD
 DXDAXCW大佬的的NanoPi-R4S-2021项目
 
 <https://github.com/DHDAXCW/NanoPi-R4S-2021>
 
+=======
+SuLingGG 大佬的 Actions 编译框架 项目：
+
+https://github.com/SuLingGG/OpenWrt-Rpi
+>>>>>>> 26f4da398b97518564d4d06f80964e5f2815e09c

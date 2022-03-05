@@ -1,4 +1,4 @@
-name: NanoPi R4S formal edition FusionWRT
+name: NanoPi-R4S-Docker
 
 on:
   repository_dispatch:
@@ -13,12 +13,11 @@ env:
   REPO_URL: https://github.com/DHDAXCW/lede
   REPO_BRANCH: master
   # REPO_BRANCH: hello
-  CONFIG_FILE: configs/lean/lean.config
+  CONFIG_FILE: configs/lean/lean_docker.config
   DIY_SH: scripts/lean.sh
   IPV6MOD_IN_FIRMWARE: true
   KMODS_IN_FIRMWARE: true
   UPLOAD_WETRANSFER: true
-  UPLOAD_COWTRANSFER: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
 
@@ -49,7 +48,6 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
-
     - name: Clone Source Code
       run: |
         df -hT $PWD
@@ -57,13 +55,27 @@ jobs:
         git config --global user.name "GitHub"
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
-
+<<<<<<< HEAD:.github/workflows/NanoPi R4S Docker FusionWRT.yml
+=======
+        
     - name: Cache
       uses: klever1988/cachewrtbuild@main
       with:
         ccache: 'true'
         prefix: ${{ github.workspace }}/openwrt
+        clean: 'false'
         
+    - name: Free up disk space
+      if: env.FREE_UP_DISK == 'true'
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/staging_dir /mnt/openwrt/build_dir/hostpkg openwrt/build_dir
+        ln -sf /mnt/openwrt/dl openwrt/dl
+        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir
+        ln -sf /mnt/openwrt/build_dir/hostpkg openwrt/build_dir/hostpkg
+
+>>>>>>> 26f4da398b97518564d4d06f80964e5f2815e09c:.github/workflows/NanoPi-R4S-Docker.yml
     - name: Update Feeds
       id: update
       run: |
@@ -75,6 +87,7 @@ jobs:
         git clone --depth=1 https://github.com/coolsnowwolf/luci customfeeds/luci
         chmod +x ../scripts/*.sh
         ../scripts/hook-feeds.sh
+    
     - name: MOD index file
       run: |
          cd $OPENWRTROOT/package/lean/autocore/files/arm
@@ -83,7 +96,6 @@ jobs:
       run: |
         cd $OPENWRTROOT
         ./scripts/feeds install -a
-
     - name: Load Custom Configuration
       run: |
         [ -e files ] && mv files $OPENWRTROOT/files
@@ -134,7 +146,6 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=FIRMWARE::$(echo $PWD)"
         echo "::set-output name=COMPILE_STATUS::success"
-
     - name: Generate Firmware
       if: steps.compile.outputs.COMPILE_STATUS == 'success'
       id: generate
@@ -171,9 +182,12 @@ jobs:
         fi
         make package/install -j$(nproc) || make package/install -j1 V=s
         make target/install -j$(nproc) || make target/install -j1 V=s
+        rm -rf bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s.manifest
+        rm -rf bin/targets/rockchip/armv8/openwrt-rockchip-armv8-friendlyarm_nanopi-r4s-rootfs.tar.gz
+        rm -rf bin/targets/rockchip/armv8/config.buildinfo
+        rm -rf bin/targets/rockchip/armv8/packages-server.zip
         make checksum
         echo "::set-output name=GENERATE_STATUS::success"
-
     - name: Upload Bin Folder
       uses: actions/upload-artifact@main
       if: steps.generate.outputs.GENERATE_STATUS == 'success'
@@ -232,22 +246,13 @@ jobs:
           ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
           echo "::warning file=Firmware-Wetransfer.com::$(cat wetransfer.log | grep https)"
           echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
-      - name: Upload Firmware To CowTransfer
-        id: cowtransfer
-        if: steps.organize.outputs.ORGANIZE_STATUS == 'success' && env.UPLOAD_COWTRANSFER == 'true'
-        run: |
-          cd $OPENWRTROOT/bin/targets/$TARGET/
-          ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-          echo "::warning file=Firmware-Cowtransfer.com::$(cat cowtransfer.log | grep https)"
-          echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
       - name: Generate release tag
         id: tag
         if: env.UPLOAD_RELEASE == 'true' && !cancelled()
         run: |
-          echo "::set-output name=release_tag::$(date +"%Y.%m.%d")-Lean3"
+          echo "::set-output name=release_tag::$(date +"%Y.%m.%d")-Lean1"
           echo "::set-output name=release_date::$(date +"%Y.%m.%d")"
           touch release.txt
-          [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
           [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
           echo "::set-output name=status::success"
       - name: Upload firmware to release
@@ -256,7 +261,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASES_TOKEN }}
         with:
-          name: ${{ steps.tag.outputs.release_date }} NanoPi-R4S formal edition_正式版_全插件
+          name: ${{ steps.tag.outputs.release_date }} NanoPi-R4S Plus_Docker容器版_全插件
           tag_name: ${{ steps.tag.outputs.release_tag }}
           body_path: release.txt
           files: ${{ env.FIRMWARE }}/*
